@@ -36,12 +36,6 @@ export default function Sidebar() {
       </nav>
 
       {/* FOOTER */}
-      <div className="mt-10 text-sm text-gray-500 dark:text-gray-400">
-        <p className="font-semibold text-black dark:text-white">
-          Intern Project
-        </p>
-        <p>React • Tailwind • Context API</p>
-      </div>
     </aside>
   );
 }

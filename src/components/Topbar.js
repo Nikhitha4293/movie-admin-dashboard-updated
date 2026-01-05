@@ -2,15 +2,20 @@ import { useContext } from "react";
 import { ThemeContext } from "../context/ThemeContext";
 
 export default function Topbar() {
-  const { dark, setDark } = useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
+
+  // 🛡️ SAFETY GUARD
+  if (!theme) return null;
+
+  const { dark, setDark } = theme;
 
   return (
-    <div className="flex justify-between items-center px-6 py-4 border-b bg-white dark:bg-gray-900 dark:text-white">
-      <h2 className="text-xl font-semibold">Admin Dashboard</h2>
+    <div className="flex justify-between items-center px-6 py-4 bg-slate-900 text-white">
+      <h1 className="text-lg font-bold">Admin Dashboard</h1>
 
       <button
         onClick={() => setDark(!dark)}
-        className="text-sm underline"
+        className="px-3 py-1 rounded bg-slate-700 hover:bg-slate-600"
       >
         {dark ? "Light mode" : "Dark mode"}
       </button>

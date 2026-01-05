@@ -1,87 +1,47 @@
-import { useState } from "react";
+import { useContext } from "react";
+import { MovieContext } from "../context/MovieContext";
 
-const initialMovies = [
-  { id: 1, name: "Inception", genre: "Sci-Fi", rating: 8.8 },
-  { id: 2, name: "Interstellar", genre: "Sci-Fi", rating: 8.6 },
-  { id: 3, name: "Avatar", genre: "Fantasy", rating: 7.8 },
-  { id: 4, name: "Titanic", genre: "Romance", rating: 7.9 },
-];
-
-export default function MovieTable() {
- const [movies] = useState(initialMovies);
- const [search, setSearch] = useState("");
-
-  const filtered = movies.filter((m) =>
-    m.name.toLowerCase().includes(search.toLowerCase())
-  );
+export default function MovieTable({ setEditingId, setForm }) {
+  const { movies, deleteMovie } = useContext(MovieContext);
 
   return (
-    <div className="bg-white dark:bg-slate-900 
-                    border border-slate-200 dark:border-slate-700 
-                    rounded-xl shadow overflow-hidden">
+    <table className="w-full bg-white dark:bg-slate-800 rounded-xl shadow">
+      <thead>
+        <tr className="border-b">
+          <th className="p-3 text-left">Name</th>
+          <th className="p-3 text-left">Genre</th>
+          <th className="p-3 text-left">Rating</th>
+          <th className="p-3 text-left">Action</th>
+        </tr>
+      </thead>
 
-      {/* Search */}
-      <div className="p-4">
-        <input
-          type="text"
-          placeholder="Search movie..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full px-4 py-2 rounded-lg
-                     bg-white dark:bg-slate-800
-                     text-slate-900 dark:text-slate-100
-                     border border-slate-300 dark:border-slate-600
-                     placeholder-slate-400
-                     focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
-      </div>
+      <tbody>
+        {movies.map((movie) => (
+          <tr key={movie.id} className="border-b">
+            <td className="p-3">{movie.name}</td>
+            <td className="p-3">{movie.genre}</td>
+            <td className="p-3">{movie.rating}</td>
+            <td className="p-3 flex gap-4">
+              <button
+                className="text-blue-600"
+                onClick={() => {
+                  setEditingId(movie.id);
+                  setForm(movie);
+                }}
+              >
+                Edit
+              </button>
 
-      {/* Table */}
-      <table className="w-full border-collapse">
-        <thead className="bg-slate-100 dark:bg-slate-800">
-          <tr>
-            <th className="p-4 text-left text-slate-700 dark:text-slate-200">
-              Name
-            </th>
-            <th className="p-4 text-left text-slate-700 dark:text-slate-200">
-              Genre
-            </th>
-            <th className="p-4 text-left text-slate-700 dark:text-slate-200">
-              Rating
-            </th>
-            <th className="p-4 text-left text-slate-700 dark:text-slate-200">
-              Action
-            </th>
+              <button
+                className="text-red-600"
+                onClick={() => deleteMovie(movie.id)}
+              >
+                Delete
+              </button>
+            </td>
           </tr>
-        </thead>
-
-        <tbody>
-          {filtered.map((movie) => (
-            <tr
-              key={movie.id}
-              className="border-t border-slate-200 dark:border-slate-700
-                         hover:bg-slate-50 dark:hover:bg-slate-800"
-            >
-              <td className="p-4 text-slate-900 dark:text-slate-100">
-                {movie.name}
-              </td>
-              <td className="p-4 text-slate-700 dark:text-slate-300">
-                {movie.genre}
-              </td>
-              <td className="p-4 text-slate-700 dark:text-slate-300">
-                {movie.rating}
-              </td>
-              <td className="p-4">
-                <button className="px-4 py-1 rounded-md
-                                   bg-red-500 text-white
-                                   hover:bg-red-600">
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }

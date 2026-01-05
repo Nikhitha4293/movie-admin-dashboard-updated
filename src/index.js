@@ -1,17 +1,18 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.css";
 import { ThemeProvider } from "./context/ThemeContext";
+import { MovieProvider } from "./context/MovieContext";
+import "./index.css";
 
-// ✅ create root first
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
-// ✅ render App inside ThemeProvider
 root.render(
   <React.StrictMode>
     <ThemeProvider>
-      <App />
+      <MovieProvider>
+        <App />
+      </MovieProvider>
     </ThemeProvider>
   </React.StrictMode>
 );
